@@ -4,43 +4,43 @@ use std::iter;
 
 /// Maps a fully-qualified Protobuf path to a value using path matchers.
 #[derive(Clone, Debug, Default)]
-pub(crate) struct PathMap<T> {
+pub struct PathMap<T> {
     // insertion order might actually matter (to avoid warning about legacy-derive-helpers)
     // see: https://doc.rust-lang.org/rustc/lints/listing/warn-by-default.html#legacy-derive-helpers
-    pub(crate) matchers: Vec<(String, T)>,
+    pub matchers: Vec<(String, T)>,
 }
 
 impl<T> PathMap<T> {
     /// Inserts a new matcher and associated value to the path map.
-    pub(crate) fn insert(&mut self, matcher: String, value: T) {
+    pub fn insert(&mut self, matcher: String, value: T) {
         self.matchers.push((matcher, value));
     }
 
     /// Returns a iterator over all the value matching the given fd_path and associated suffix/prefix path
-    pub(crate) fn get(&self, fq_path: &str) -> Iter<'_, T> {
+    pub fn get(&self, fq_path: &str) -> Iter<'_, T> {
         Iter::new(self, fq_path.to_string())
     }
 
     /// Returns a iterator over all the value matching the path `fq_path.field` and associated suffix/prefix path
-    pub(crate) fn get_field(&self, fq_path: &str, field: &str) -> Iter<'_, T> {
+    pub fn get_field(&self, fq_path: &str, field: &str) -> Iter<'_, T> {
         Iter::new(self, format!("{}.{}", fq_path, field))
     }
 
     /// Returns the first value found matching the given path
     /// If nothing matches the path, suffix paths will be tried, then prefix paths, then the global path
     #[allow(unused)]
-    pub(crate) fn get_first<'a>(&'a self, fq_path: &'_ str) -> Option<&'a T> {
+    pub fn get_first<'a>(&'a self, fq_path: &'_ str) -> Option<&'a T> {
         self.find_best_matching(fq_path)
     }
 
     /// Returns the first value found matching the path `fq_path.field`
     /// If nothing matches the path, suffix paths will be tried, then prefix paths, then the global path
-    pub(crate) fn get_first_field<'a>(&'a self, fq_path: &'_ str, field: &'_ str) -> Option<&'a T> {
+    pub fn get_first_field<'a>(&'a self, fq_path: &'_ str, field: &'_ str) -> Option<&'a T> {
         self.find_best_matching(&format!("{}.{}", fq_path, field))
     }
 
     /// Removes all matchers from the path map.
-    pub(crate) fn clear(&mut self) {
+    pub fn clear(&mut self) {
         self.matchers.clear();
     }
 
@@ -57,7 +57,7 @@ impl<T> PathMap<T> {
 }
 
 /// Iterator inside a PathMap that only returns values that matches a given path
-pub(crate) struct Iter<'a, T> {
+pub struct Iter<'a, T> {
     iter: std::slice::Iter<'a, (String, T)>,
     path: String,
 }
