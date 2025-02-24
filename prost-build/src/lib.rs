@@ -148,10 +148,10 @@ pub(crate) use collections::{BytesType, MapType};
 
 mod code_generator;
 mod context;
-mod extern_paths;
-mod ident;
-mod message_graph;
-mod path;
+pub mod extern_paths;
+pub mod ident;
+pub mod message_graph;
+pub mod path;
 
 mod config;
 pub use config::{
