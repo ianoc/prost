@@ -140,7 +140,7 @@ use std::path::Path;
 
 use prost_types::FileDescriptorSet;
 
-mod ast;
+pub mod ast;
 pub use crate::ast::{Comments, Method, Service};
 
 mod collections;

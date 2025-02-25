@@ -18,7 +18,7 @@ pub struct Comments {
 }
 
 impl Comments {
-    pub(crate) fn from_location(location: &Location) -> Comments {
+    pub fn from_location(location: &Location) -> Comments {
         let leading_detached = location
             .leading_detached_comments
             .iter()
